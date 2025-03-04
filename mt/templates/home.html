@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+    <h1>Welcome to Restaurant Management</h1>
+    <p>Use the navigation bar to explore:</p>
+    <ul class="list-group">
+        <li class="list-group-item"><a href="{% url 'customer_list' %}">View Customers</a></li>
+        <li class="list-group-item"><a href="{% url 'table_list' %}">View Tables</a></li>
+        <li class="list-group-item"><a href="{% url 'reservation_create' %}">Make a Reservation</a></li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Table List{% endblock %}
+{% block content %}
+    <h1>All Tables</h1>
+
+    <h2>Add New Table</h2>
+    <form id="table-form" method="POST" action="{% url 'table_create' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="number" class="form-label">Table Number</label>
+            <input type="number" class="form-control" id="number" name="number" required>
+        </div>
+        <div class="mb-3">
+            <label for="seats" class="form-label">Seats</label>
+            <input type="number" class="form-control" id="seats" name="seats" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Table</button>
+    </form>
+
+    <h2>Check Available Tables</h2>
+    <form method="GET" action="{% url 'available_tables' %}">
+        <div class="mb-3">
+            <label for="date" class="form-label">Check Availability for Date</label>
+            <input type="date" class="form-control" id="date" name="date" required>
+        </div>
+        <button type="submit" class="btn btn-info">Check Availability</button>
+    </form>
+
+    <h2>Existing Tables</h2>
+    <ul class="list-group">
+        {% for table in tables %}
+            <li class="list-group-item">
+                Table {{ table.number }} - Seats: {{ table.seats }}
+                <span class="badge bg-{% if table.is_available %}success{% else %}danger{% endif %}">
+                    {% if table.is_available %}Available{% else %}Not Available{% endif %}
+                </span>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No tables found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'available_tables' %}" class="btn btn-info mt-3">View Available Tables</a>
+{% endblock %}

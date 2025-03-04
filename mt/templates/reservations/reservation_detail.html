@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Reservation Details{% endblock %}
+{% block content %}
+    <h1>Reservation Details</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Reservation for {{ reservation.customer.name }}</h5>
+            <p class="card-text"><strong>Table:</strong> {{ reservation.table.number }}</p>
+            <p class="card-text"><strong>Date:</strong> {{ reservation.date }}</p>
+            <p class="card-text"><strong>Status:</strong> 
+                <span class="badge bg-{% if reservation.status == 'confirmed' %}success{% elif reservation.status == 'canceled' %}danger{% else %}warning{% endif %}">
+                    {{ reservation.status|title }}
+                </span>
+            </p>
+            <a href="{% url 'user_reservations' reservation.customer.id %}" class="btn btn-primary">View All Reservations</a>
+        </div>
+    </div>
+{% endblock %}

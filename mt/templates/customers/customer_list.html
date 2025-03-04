@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}Customer List{% endblock %}
+{% block content %}
+    <h1>Customers</h1>
+
+    <!-- Form to create a new customer -->
+    <h2>Add New Customer</h2>
+    <form id="customer-form" method="POST" action="{% url 'customer_list' %}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Customer</button>
+    </form>
+
+    <!-- List of existing customers -->
+    <h2>Existing Customers</h2>
+    <ul class="list-group">
+        {% for customer in customers %}
+            <li class="list-group-item">
+                <a href="{% url 'customer_detail' customer.id %}">{{ customer.name }} - {{ customer.phone }}</a>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No customers found.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

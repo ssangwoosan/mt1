@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Available Tables{% endblock %}
+{% block content %}
+    <h1>Available Tables</h1>
+
+    <form method="GET" action="">
+        <div class="mb-3">
+            <label for="date" class="form-label">Check Availability for Date</label>
+            <input type="date" class="form-control" id="date" name="date" required>
+        </div>
+        <button type="submit" class="btn btn-info">Check Availability</button>
+    </form>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+    {% else %}
+        <p>Showing tables available for date: {{ date|default:"Not specified" }}</p>
+    {% endif %}
+    <ul class="list-group">
+        {% for table in tables %}
+            <li class="list-group-item">
+                Table {{ table.number }} - Seats: {{ table.seats }}
+                <span class="badge bg-success">Available</span>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No available tables found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'table_list' %}" class="btn btn-primary mt-3">Back to All Tables</a>
+{% endblock %}

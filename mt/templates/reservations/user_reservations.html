@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}User Reservations{% endblock %}
+{% block content %}
+    <h1>Reservations for {{ reservations.0.customer.name|default:"User" }}</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Table</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.table.number }}</td>
+                    <td>{{ reservation.date }}</td>
+                    <td>
+                        <span class="badge bg-{% if reservation.status == 'confirmed' %}success{% elif reservation.status == 'canceled' %}danger{% else %}warning{% endif %}">
+                            {{ reservation.status|title }}
+                        </span>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">No reservations found for this user.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'customer_list' %}" class="btn btn-primary mt-3">Back to Customers</a>
+{% endblock %}
